@@ -27,17 +27,17 @@ MARGIN = 15
 DISPLAY_SIZE = (800, 360)
 
 # colors
-WHITE_RGB = (255, 255, 255)
-BLACK_RGB = (0, 0, 0)
-GREEN_RGB = (0, 255, 0)
-BLUE_RGB = (0, 0, 255)
+WHITE = (255, 255, 255)
+BLACK = (0, 0, 0)
+GREEN = (0, 255, 0)
+BLUE = (0, 0, 255)
 
 screen = pygame.display.set_mode(DISPLAY_SIZE)
 pygame.display.set_caption("tic-tac-toe")
 img = pygame.image.load("image_tictactoe.png")
 pygame.display.set_icon(img)
 font = pygame.font.SysFont('futura', 32)
-welcome_text = font.render("Let's play!", 1, WHITE_RGB, BLACK_RGB)
+welcome_text = font.render("Let's play!", 1, WHITE, BLACK)
 game_field = [[0] * 3 for i in range(3)]
 query = 0
 
@@ -61,24 +61,24 @@ while True:
             game_over = False
             game_field = [[0] * 3 for i in range(3)]
             query = 0
-            screen.fill(BLACK_RGB)
+            screen.fill(BLACK)
 
     for col in range(3):
         for row in range(3):
             if game_field[row][col] == 'x':
-                color = BLUE_RGB
+                color = BLUE
             elif game_field[row][col] == 'o':
-                color = GREEN_RGB
+                color = GREEN
             else:
-                color = WHITE_RGB
+                color = WHITE
             x = col * SIZE_BLOCK + (col+1) * MARGIN
             y = row * SIZE_BLOCK + (row+1) * MARGIN
             pygame.draw.rect(screen, color, (x, y, SIZE_BLOCK, SIZE_BLOCK))
-            if color == BLUE_RGB:
-                pygame.draw.line(screen, WHITE_RGB, (x + 25, y + 25), (x + SIZE_BLOCK - 25, y + SIZE_BLOCK - 25), 7)
-                pygame.draw.line(screen, WHITE_RGB, (x + SIZE_BLOCK - 25, y + 25), (x + 25, y + SIZE_BLOCK - 25), 7)
-            elif color == GREEN_RGB:
-                pygame.draw.circle(screen, WHITE_RGB, (x + SIZE_BLOCK // 2, y + SIZE_BLOCK // 2), SIZE_BLOCK // 2 - 20, 5)
+            if color == BLUE:
+                pygame.draw.line(screen, WHITE, (x + 25, y + 25), (x + SIZE_BLOCK - 25, y + SIZE_BLOCK - 25), 7)
+                pygame.draw.line(screen, WHITE, (x + SIZE_BLOCK - 25, y + 25), (x + 25, y + SIZE_BLOCK - 25), 7)
+            elif color == GREEN:
+                pygame.draw.circle(screen, WHITE, (x + SIZE_BLOCK // 2, y + SIZE_BLOCK // 2), SIZE_BLOCK // 2 - 20, 5)
 
     if (query-1) % 2 == 0:
         game_over = check_win(game_field, 'x')
@@ -86,12 +86,12 @@ while True:
         game_over = check_win(game_field, 'o')
 
     if game_over:
-        screen.fill(BLACK_RGB)
+        screen.fill(BLACK)
         font = pygame.font.SysFont('futura', 100)
         if check_win(game_field, 'o'):
-            text1 = font.render(game_over, True, GREEN_RGB)
+            text1 = font.render(game_over, True, GREEN)
         elif check_win(game_field, 'x'):
-            text1 = font.render(game_over, True, BLUE_RGB)
+            text1 = font.render(game_over, True, BLUE)
         text_rect = text1.get_rect()
         text_x = screen.get_width() / 2 - text_rect.width / 2
         text_y = screen.get_height() / 2 - text_rect.height / 2
