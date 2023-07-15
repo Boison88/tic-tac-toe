@@ -40,6 +40,7 @@ img = pygame.image.load("image_tictactoe.png")
 pygame.display.set_icon(img)
 font = pygame.font.SysFont('futura', 32)
 welcome_text = font.render("Let's play!", 1, WHITE_RGB, BLACK_RGB)
+win_text = font.render("Win!", 1, WHITE_RGB, BLACK_RGB)
 query = 0
 
 
@@ -50,14 +51,14 @@ while True:
             pygame.quit()
         elif event.type == pygame.MOUSEBUTTONDOWN:
             x_mouse, y_mouse = pygame.mouse.get_pos()
-            # print(f'x={x_mouse}, y={y_mouse}')
             column = x_mouse // (SIZE_BLOCK+MARGIN)
             row = y_mouse // (SIZE_BLOCK+MARGIN)
-            if query % 2 == 0:
-                game_field[row][column] = 'x'
-            else:
-                game_field[row][column] = 'o'
-            query += 1
+            if game_field[row][column] == 0:
+                if query % 2 == 0:
+                    game_field[row][column] = 'x'
+                else:
+                    game_field[row][column] = 'o'
+                query += 1
         elif event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
             game_over = False
             game_field = [[0]*3 for i in range(3)]
