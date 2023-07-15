@@ -17,7 +17,7 @@ def check_win(field, sign: str):
     if field[0][2] == sign and field[1][1] == sign and field[2][0] == sign:
         return sign
     if zeroes == 0:
-        return "Peace!"
+        return "Draw!"
     return False
 
 
@@ -25,14 +25,12 @@ def check_win(field, sign: str):
 SIZE_BLOCK = 100
 MARGIN = 15
 DISPLAY_SIZE = (800, 360)
-# width = height = SIZE_BLOCK*3 + MARGIN*4
 
 # colors
 WHITE_RGB = (255, 255, 255)
 BLACK_RGB = (0, 0, 0)
 GREEN_RGB = (0, 255, 0)
 BLUE_RGB = (0, 0, 255)
-game_field = [[0] * 3 for i in range(3)]
 
 screen = pygame.display.set_mode(DISPLAY_SIZE)
 pygame.display.set_caption("tic-tac-toe")
@@ -40,7 +38,7 @@ img = pygame.image.load("image_tictactoe.png")
 pygame.display.set_icon(img)
 font = pygame.font.SysFont('futura', 32)
 welcome_text = font.render("Let's play!", 1, WHITE_RGB, BLACK_RGB)
-win_text = font.render("Win!", 1, WHITE_RGB, BLACK_RGB)
+game_field = [[0] * 3 for i in range(3)]
 query = 0
 
 
@@ -51,8 +49,8 @@ while True:
             pygame.quit()
         elif event.type == pygame.MOUSEBUTTONDOWN:
             x_mouse, y_mouse = pygame.mouse.get_pos()
-            column = x_mouse // (SIZE_BLOCK+MARGIN)
-            row = y_mouse // (SIZE_BLOCK+MARGIN)
+            column = x_mouse // (SIZE_BLOCK + MARGIN)
+            row = y_mouse // (SIZE_BLOCK + MARGIN)
             if game_field[row][column] == 0:
                 if query % 2 == 0:
                     game_field[row][column] = 'x'
@@ -61,7 +59,7 @@ while True:
                 query += 1
         elif event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
             game_over = False
-            game_field = [[0]*3 for i in range(3)]
+            game_field = [[0] * 3 for i in range(3)]
             query = 0
             screen.fill(BLACK_RGB)
 
@@ -73,14 +71,14 @@ while True:
                 color = GREEN_RGB
             else:
                 color = WHITE_RGB
-            x = col*SIZE_BLOCK + (col+1)*MARGIN
-            y = row*SIZE_BLOCK + (row+1)*MARGIN
+            x = col * SIZE_BLOCK + (col+1) * MARGIN
+            y = row * SIZE_BLOCK + (row+1) * MARGIN
             pygame.draw.rect(screen, color, (x, y, SIZE_BLOCK, SIZE_BLOCK))
             if color == BLUE_RGB:
-                pygame.draw.line(screen, WHITE_RGB, (x+25, y+25), (x+SIZE_BLOCK-25, y+SIZE_BLOCK-25), 7)
-                pygame.draw.line(screen, WHITE_RGB, (x+SIZE_BLOCK-25, y+25), (x+25, y+SIZE_BLOCK-25), 7)
+                pygame.draw.line(screen, WHITE_RGB, (x + 25, y + 25), (x + SIZE_BLOCK - 25, y + SIZE_BLOCK - 25), 7)
+                pygame.draw.line(screen, WHITE_RGB, (x + SIZE_BLOCK - 25, y + 25), (x + 25, y + SIZE_BLOCK - 25), 7)
             elif color == GREEN_RGB:
-                pygame.draw.circle(screen, WHITE_RGB, (x+SIZE_BLOCK//2, y+SIZE_BLOCK//2), SIZE_BLOCK//2-20, 5)
+                pygame.draw.circle(screen, WHITE_RGB, (x + SIZE_BLOCK // 2, y + SIZE_BLOCK // 2), SIZE_BLOCK // 2 - 20, 5)
 
     if (query-1) % 2 == 0:
         game_over = check_win(game_field, 'x')
