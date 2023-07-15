@@ -1,15 +1,38 @@
 import pygame
-import sys
 
 pygame.init()
 
+
+def check_win(field, sign: str):
+    zeroes = 0
+    for row in field:
+        zeroes += row.count(0)
+        if row.count(sign) == 3:
+            return sign
+    for col in range(3):
+        if field[0][col] == sign and field[1][col] == sign and field[2][col] == sign:
+            return sign
+    if field[0][0] == sign and field[1][1] == sign and field[2][2] == sign:
+        return sign
+    if field[0][2] == sign and field[1][1] == sign and field[2][0] == sign:
+        return sign
+    if zeroes == 0:
+        return "Peace!"
+    return False
+
+
+# display objects
 SIZE_BLOCK = 100
 MARGIN = 15
-DISPLAY_SIZE = (800, 800)
+DISPLAY_SIZE = (800, 360)
+# width = height = SIZE_BLOCK*3 + MARGIN*4
+
+# colors
 WHITE_RGB = (255, 255, 255)
 BLACK_RGB = (0, 0, 0)
-width = height = SIZE_BLOCK*3 + MARGIN*4
-arr = [[0]*3 for i in range(3)]
+GREEN_RGB = (0, 255, 0)
+BLUE_RGB = (0, 0, 255)
+game_field = [[0] * 3 for i in range(3)]
 
 screen = pygame.display.set_mode(DISPLAY_SIZE)
 pygame.display.set_caption("tic-tac-toe")
@@ -17,17 +40,62 @@ img = pygame.image.load("image_tictactoe.png")
 pygame.display.set_icon(img)
 font = pygame.font.SysFont('futura', 32)
 welcome_text = font.render("Let's play!", 1, WHITE_RGB, BLACK_RGB)
+query = 0
+
 
 while True:
+    screen.blit(welcome_text, (500, 100))
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            quit()
-    screen.blit(welcome_text, (330, 60))
-    pygame.display.update()
+            pygame.quit()
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            x_mouse, y_mouse = pygame.mouse.get_pos()
+            # print(f'x={x_mouse}, y={y_mouse}')
+            column = x_mouse // (SIZE_BLOCK+MARGIN)
+            row = y_mouse // (SIZE_BLOCK+MARGIN)
+            if query % 2 == 0:
+                game_field[row][column] = 'x'
+            else:
+                game_field[row][column] = 'o'
+            query += 1
+        elif event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
+            game_over = False
+            game_field = [[0]*3 for i in range(3)]
+            query = 0
+            screen.fill(BLACK_RGB)
 
-    for row in range(3):
-        for col in range(3):
-            x = 230 + col*SIZE_BLOCK + (col+1)*MARGIN
-            y = 200 + row*SIZE_BLOCK + (row+1)*MARGIN
-            pygame.draw.rect(screen, WHITE_RGB, (x, y, SIZE_BLOCK, SIZE_BLOCK))
+    for col in range(3):
+        for row in range(3):
+            if game_field[row][col] == 'x':
+                color = BLUE_RGB
+            elif game_field[row][col] == 'o':
+                color = GREEN_RGB
+            else:
+                color = WHITE_RGB
+            x = col*SIZE_BLOCK + (col+1)*MARGIN
+            y = row*SIZE_BLOCK + (row+1)*MARGIN
+            pygame.draw.rect(screen, color, (x, y, SIZE_BLOCK, SIZE_BLOCK))
+            if color == BLUE_RGB:
+                pygame.draw.line(screen, WHITE_RGB, (x+25, y+25), (x+SIZE_BLOCK-25, y+SIZE_BLOCK-25), 7)
+                pygame.draw.line(screen, WHITE_RGB, (x+SIZE_BLOCK-25, y+25), (x+25, y+SIZE_BLOCK-25), 7)
+            elif color == GREEN_RGB:
+                pygame.draw.circle(screen, WHITE_RGB, (x+SIZE_BLOCK//2, y+SIZE_BLOCK//2), SIZE_BLOCK//2-20, 5)
+
+    if (query-1) % 2 == 0:
+        game_over = check_win(game_field, 'x')
+    else:
+        game_over = check_win(game_field, 'o')
+
+    if game_over:
+        screen.fill(BLACK_RGB)
+        font = pygame.font.SysFont('futura', 100)
+        if check_win(game_field, 'o'):
+            text1 = font.render(game_over, True, GREEN_RGB)
+        elif check_win(game_field, 'x'):
+            text1 = font.render(game_over, True, BLUE_RGB)
+        text_rect = text1.get_rect()
+        text_x = screen.get_width() / 2 - text_rect.width / 2
+        text_y = screen.get_height() / 2 - text_rect.height / 2
+        screen.blit(text1, [text_x, text_y])
+
     pygame.display.update()
