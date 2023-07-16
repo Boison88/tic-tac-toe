@@ -2,25 +2,6 @@ import pygame
 
 pygame.init()
 
-
-def check_win(field, sign: str):
-    zeroes = 0
-    for row in field:
-        zeroes += row.count(0)
-        if row.count(sign) == 3:
-            return sign
-    for col in range(3):
-        if field[0][col] == sign and field[1][col] == sign and field[2][col] == sign:
-            return sign
-    if field[0][0] == sign and field[1][1] == sign and field[2][2] == sign:
-        return sign
-    if field[0][2] == sign and field[1][1] == sign and field[2][0] == sign:
-        return sign
-    if zeroes == 0:
-        return "Draw!"
-    return False
-
-
 # display objects
 SIZE_BLOCK = 100
 MARGIN = 15
@@ -40,6 +21,24 @@ font = pygame.font.SysFont('futura', 32)
 welcome_text = font.render("Let's play!", 1, WHITE, BLACK)
 game_field = [[0] * 3 for i in range(3)]
 query = 0
+
+
+def check_win(field, sign: str):
+    zeroes = 0
+    for row in field:
+        zeroes += row.count(0)
+        if row.count(sign) == 3:
+            return sign
+    for col in range(3):
+        if field[0][col] == sign and field[1][col] == sign and field[2][col] == sign:
+            return sign
+    if field[0][0] == sign and field[1][1] == sign and field[2][2] == sign:
+        return sign
+    if field[0][2] == sign and field[1][1] == sign and field[2][0] == sign:
+        return sign
+    if zeroes == 0:
+        return "Draw!"
+    return False
 
 
 while True:
