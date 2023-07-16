@@ -19,7 +19,8 @@
 ```
 6. For restart game press the space bar
 
-Demo
+___
+__Demo__
 <p align="center">
 <img src="/demo-tic-tac-toe.gif">
 </p>
