@@ -18,3 +18,8 @@
     $ python3 tic-tac-toe.py
 ```
 6. For restart game press the space bar
+
+Demo
+<p align="center">
+<img src="/demo-tic-tac-toe.gif">
+</p>
