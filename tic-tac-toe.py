@@ -17,8 +17,6 @@ screen = pygame.display.set_mode(DISPLAY_SIZE)
 pygame.display.set_caption("tic-tac-toe")
 img = pygame.image.load("image-tic-tac-toe.png")
 pygame.display.set_icon(img)
-font = pygame.font.SysFont('futura', 32)
-welcome_text = font.render("Let's play!", 1, WHITE, BLACK)
 game_field = [[0] * 3 for i in range(3)]
 query = 0
 
@@ -42,7 +40,8 @@ def check_win(field, sign: str):
 
 
 while True:
-    screen.blit(welcome_text, (500, 100))
+    font = pygame.font.SysFont('futura', 42)
+    screen.blit(font.render("Let's play!", 1, GREEN, BLACK), (480, 50))
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
@@ -62,6 +61,22 @@ while True:
             query = 0
             screen.fill(BLACK)
 
+    if (query-1) % 2 == 0:
+        game_over = check_win(game_field, 'x')
+    else:
+        game_over = check_win(game_field, 'o')
+
+    if game_over:
+        screen.fill(BLACK)
+        font = pygame.font.SysFont('futura', 100)
+        if check_win(game_field, 'o'):
+            if game_over == "Draw!":
+                screen.blit(font.render("Draw!", 1, GREEN), (415, 110))
+            else:
+                screen.blit(font.render("O win!", 1, GREEN), (415, 110))
+        elif check_win(game_field, 'x'):
+            screen.blit(font.render("X win!", 1, BLUE), (415, 110))
+
     for col in range(3):
         for row in range(3):
             if game_field[row][col] == 'x':
@@ -78,22 +93,5 @@ while True:
                 pygame.draw.line(screen, WHITE, (x + SIZE_BLOCK - 25, y + 25), (x + 25, y + SIZE_BLOCK - 25), 7)
             elif color == GREEN:
                 pygame.draw.circle(screen, WHITE, (x + SIZE_BLOCK // 2, y + SIZE_BLOCK // 2), SIZE_BLOCK // 2 - 20, 5)
-
-    if (query-1) % 2 == 0:
-        game_over = check_win(game_field, 'x')
-    else:
-        game_over = check_win(game_field, 'o')
-
-    if game_over:
-        screen.fill(BLACK)
-        font = pygame.font.SysFont('futura', 100)
-        if check_win(game_field, 'o'):
-            text1 = font.render(game_over, True, GREEN)
-        elif check_win(game_field, 'x'):
-            text1 = font.render(game_over, True, BLUE)
-        text_rect = text1.get_rect()
-        text_x = screen.get_width() / 2 - text_rect.width / 2
-        text_y = screen.get_height() / 2 - text_rect.height / 2
-        screen.blit(text1, [text_x, text_y])
 
     pygame.display.update()
