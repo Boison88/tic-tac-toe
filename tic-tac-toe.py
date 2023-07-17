@@ -6,6 +6,7 @@ pygame.init()
 SIZE_BLOCK = 100
 MARGIN = 15
 DISPLAY_SIZE = (800, 360)
+WIN_TEXT_COORDS = (415, 110)
 
 # colors
 WHITE = (255, 255, 255)
@@ -71,11 +72,14 @@ while True:
         font = pygame.font.SysFont('futura', 100)
         if check_win(game_field, 'o'):
             if game_over == "Draw!":
-                screen.blit(font.render("Draw!", 1, GREEN), (415, 110))
-            else:
-                screen.blit(font.render("O win!", 1, GREEN), (415, 110))
-        elif check_win(game_field, 'x'):
-            screen.blit(font.render("X win!", 1, BLUE), (415, 110))
+                screen.blit(font.render("Draw!", 1, WHITE), WIN_TEXT_COORDS)
+            elif game_over == 'o':
+                screen.blit(font.render("O win!", 1, GREEN), WIN_TEXT_COORDS)
+        if check_win(game_field, 'x'):
+            if game_over == "Draw!":
+                screen.blit(font.render("Draw!", 1, WHITE), WIN_TEXT_COORDS)
+            elif game_over == 'x':
+                screen.blit(font.render("X win!", 1, BLUE), WIN_TEXT_COORDS)
 
     for col in range(3):
         for row in range(3):
