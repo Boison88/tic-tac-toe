@@ -6,16 +6,16 @@
 2. Install [Pygame](https://www.pygame.org/news)
 3. Clone this repository:
 ```
-    $ git clone https://github.com/Boison88/tic-tac-toe.git
+    git clone https://github.com/Boison88/tic-tac-toe.git
 ```
 4. Change Directory:
 ```
-    $ cd tic-tac-toe
+    cd tic-tac-toe
 ```
 
 5. Running the program:
 ```
-    $ python3 tic-tac-toe.py
+    python3 tic-tac-toe.py
 ```
 6. For restart game press the space bar
 

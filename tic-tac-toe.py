@@ -24,9 +24,9 @@ query = 0
 
 
 def check_win(field, sign: str):
-    zeroes = 0
+    empty_cells = 0
     for row in field:
-        zeroes += row.count(0)
+        empty_cells += row.count(0)
         if row.count(sign) == 3:
             return sign
     for col in range(3):
@@ -36,7 +36,7 @@ def check_win(field, sign: str):
         return sign
     if field[0][2] == sign and field[1][1] == sign and field[2][0] == sign:
         return sign
-    if zeroes == 0:
+    if empty_cells == 0:
         return "Draw!"
     return False
 
@@ -46,7 +46,7 @@ while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
-        elif event.type == pygame.MOUSEBUTTONDOWN:
+        elif event.type == pygame.MOUSEBUTTONDOWN and not game_over:
             x_mouse, y_mouse = pygame.mouse.get_pos()
             column = x_mouse // (SIZE_BLOCK + MARGIN)
             row = y_mouse // (SIZE_BLOCK + MARGIN)
